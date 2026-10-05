@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Space Mission Cloud Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- LOADER -->
+<div id="loader"><div class="bh-mini"></div><h1>SPACE MISSION CLOUD HUB</h1><p>SYSTEM INITIALIZING...</p>
+<div class="bar"><i id="lbar"></i></div><b id="pct">0%</b></div>
+
+<div id="cur-dot"></div><div id="cur-ring"></div><div id="prog"></div>
+<div class="bg"><canvas id="stars"></canvas><div class="hole"><span class="ring"></span></div><div id="glow"></div></div>
+
+<header class="nav">
+  <a href="#home" class="logo"><span class="orb"></span><span>SPACE MISSION<br>CLOUD HUB</span></a>
+  <button class="burger" aria-label="Menu" id="burger">☰</button>
+  <nav id="menu">
+    <a href="#home">HOME</a><a href="#missions">MISSIONS</a><a href="#vault">DATA VAULT</a>
+    <a href="#architecture">CLOUD ARCHITECTURE</a><a href="#timeline">TIMELINE</a><a href="#about">ABOUT</a>
+  </nav>
+  <span class="online"><i class="dot"></i>SYSTEM ONLINE</span>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-txt">
+    <span class="chip"><i class="dot"></i>CLOUD NETWORK ONLINE</span>
+    <h2>EXPLORE.<br>DISCOVER.<br><em>PRESERVE.</em></h2>
+    <p>A cloud-powered digital hub for exploring, storing and accessing humanity's greatest space missions.</p>
+    <div class="btns"><a class="btn pri" href="#missions" data-toast="Mission data loaded successfully.">🚀 EXPLORE MISSIONS</a>
+    <a class="btn" href="#vault" data-toast="Opening cloud data vault...">☁ OPEN DATA VAULT</a></div>
+    <div class="glass panel"><h4>MISSION NETWORK</h4>
+      <div><span>ACTIVE MISSIONS</span><b>04</b></div><div><span>DATA ARCHIVES</span><b>128+</b></div>
+      <div><span>MISSION IMAGES</span><b>96+</b></div><div><span>SYSTEM STATUS</span><b class="ok">OPERATIONAL</b></div></div>
+  </div>
+  <div class="visual" data-par="30">
+    <div class="v-ring r1"></div><div class="v-ring r2"></div><div class="v-ring r3"></div>
+    <div class="v-hole"></div>
+    <div class="orbit"><span class="sat">🛰</span></div>
+    <div class="scanner" tabindex="0">🚀<small>ORBITAL SCANNER</small>
+      <div class="tip"><b>Orbital Data Relay</b><br>Cloud-connected mission telemetry node</div></div>
+  </div>
+</section>
+
+<section id="missions" class="sec reveal">
+  <h3 class="title">FEATURED MISSIONS</h3>
+  <div class="tools"><input id="search" type="search" placeholder="🔍 Search missions, countries, destinations..." aria-label="Search missions">
+  <div id="filters"></div></div>
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" hidden>🌌<h4>No missions found</h4><p>Try Mars, India, Moon or 2023.</p></div>
+</section>
+
+<section id="vault" class="sec reveal">
+  <h3 class="title">THE COSMIC DATA VAULT</h3>
+  <div class="vault-top">
+    <div class="glass"><h4>CLOUD STORAGE STATUS</h4><div class="bar big"><i class="fill" data-w="78"></i></div><b>78%</b>
+      <p class="ok"><i class="dot"></i>STORAGE STATUS: OPERATIONAL</p></div>
+    <div class="glass counts"><div><b>128</b>MISSION FILES</div><div><b>96</b>IMAGES</div><div><b>24</b>REPORTS</div><div><b>8</b>DATASETS</div></div>
+    <div class="glass"><h4>CLOUD INFRASTRUCTURE</h4>
+      <ul class="infra"><li><i class="dot"></i>S3 STORAGE<b>ONLINE</b></li><li><i class="dot"></i>DATA ACCESS<b>ONLINE</b></li><li><i class="dot"></i>SECURITY<b>ACTIVE</b></li><li><i class="dot"></i>NETWORK<b>STABLE</b></li><li><i class="dot"></i>ARCHIVE SYSTEM<b>ONLINE</b></li></ul>
+      <small class="note">Frontend demo status. Live S3 integration comes later.</small></div>
+  </div>
+  <div class="tools"><input id="fsearch" type="search" placeholder="🔍 Search vault files..." aria-label="Search files">
+    <div id="ffilters"></div><button class="btn pri" id="add">+ ADD TO CLOUD VAULT</button></div>
+  <div id="files" class="files"></div>
+</section>
+
+<section id="architecture" class="sec reveal">
+  <h3 class="title">CLOUD ARCHITECTURE</h3>
+  <div class="arch">
+    <div class="node glass" data-tip="<b>User</b><br>Browser client accessing the hub.">👤 USER</div><div class="link"><i class="pkt"></i></div>
+    <div class="node glass hot" data-tip="<b>HTTPS</b><br>Secure communication between users and the cloud application.">🔒 INTERNET / HTTPS</div><div class="link"><i class="pkt"></i></div>
+    <div class="node glass" data-tip="<b>Static Web App</b><br>HTML, CSS and JS hosted on Amazon S3.">🌐 CLOUD WEB APP<small>AWS S3</small></div><div class="link"><i class="pkt"></i></div>
+    <div class="node glass hot" data-tip="<b>Amazon S3</b><br>Cloud object storage for mission images, reports and datasets.">🪣 S3 BUCKET<small>Images · Reports · Data</small></div><div class="link"><i class="pkt"></i></div>
+    <div class="node glass hot" data-tip="<b>AWS IAM</b><br>Access control and permissions for cloud resources.">🛡 AWS IAM<small>ACCESS CONTROL</small></div>
+    <div id="atip" class="tooltip"></div>
+  </div>
+  <p class="note c">This diagram visualizes the planned architecture. AWS is not connected yet.</p>
+</section>
+
+<section class="sec stats reveal">
+  <div><b data-n="4">0</b>ACTIVE MISSIONS</div><div><b data-n="128" data-s="+">0</b>ARCHIVED FILES</div>
+  <div><b data-n="96" data-s="+">0</b>MISSION IMAGES</div><div><b data-n="24">0</b>MISSION REPORTS</div>
+</section>
+
+<section id="map" class="sec reveal">
+  <h3 class="title">LIVE COSMIC MAP</h3>
+  <div class="map glass" id="cmap"><svg viewBox="0 0 800 400" id="msvg" aria-label="Cosmic map"></svg><div id="mtip" class="tooltip"></div></div>
+</section>
+
+<section id="timeline" class="sec reveal">
+  <h3 class="title">SPACE EXPLORATION TIMELINE</h3>
+  <div class="tl" id="tl"></div>
+</section>
+
+<section id="about" class="sec reveal">
+  <h3 class="title">ABOUT</h3>
+  <p class="lead">Space Mission Cloud Hub is a cloud-oriented platform concept designed to demonstrate how cloud storage and web technologies can be used to organize, preserve and access space mission resources.</p>
+  <div class="grid3">
+    <div class="glass"><h4>SCALABILITY</h4><p>Cloud storage can grow with increasing mission data.</p></div>
+    <div class="glass"><h4>ACCESSIBILITY</h4><p>Mission resources can be accessed remotely.</p></div>
+    <div class="glass"><h4>SECURITY</h4><p>Cloud access can be controlled through identity and permissions.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div><h4>SPACE MISSION CLOUD HUB</h4><p>Exploring the universe through cloud-powered technology.</p><p class="ok"><i class="dot"></i>SYSTEM OPERATIONAL</p></div>
+  <nav><a href="#missions">MISSIONS</a><a href="#vault">DATA VAULT</a><a href="#architecture">CLOUD ARCHITECTURE</a><a href="#timeline">TIMELINE</a><a href="#about">ABOUT</a></nav>
+  <small>© 2026 Space Mission Cloud Hub</small>
+</footer>
+
+<div id="modal" class="modal" hidden><div class="mbox glass" role="dialog" aria-modal="true"><button class="x" id="mclose" aria-label="Close">✕</button><div id="mbody"></div></div></div>
+<div id="toasts" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
