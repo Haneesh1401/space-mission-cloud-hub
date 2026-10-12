@@ -1125,34 +1125,228 @@ $("#files").addEventListener(
 // CLOUD UPLOAD
 // ==========================================
 
-$("#add").onclick = () => {
 
-  toast(
-    "Cloud upload integration will be connected to Amazon S3."
+ // ==========================================
+ // CLOUDINARY UPLOAD
+ // ==========================================
+
+const CLOUDINARY_CLOUD_NAME = "aj8wzkmt";
+const CLOUDINARY_UPLOAD_PRESET = "space_mission_upload";
+
+const CLOUDINARY_UPLOAD_URL =
+  `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+
+const CLOUD_FILES_STORAGE_KEY = "spaceMissionCloudHubUploads";
+
+// Restore uploaded-file metadata saved in this browser.
+try {
+  const savedCloudFiles = JSON.parse(
+    localStorage.getItem(CLOUD_FILES_STORAGE_KEY) || "[]"
   );
 
+  if (Array.isArray(savedCloudFiles)) {
+    savedCloudFiles.forEach(saved => {
+      if (
+        saved &&
+        saved.url &&
+        !files.some(file => file.url === saved.url)
+      ) {
+        files.push(saved);
+      }
+    });
+  }
+} catch (error) {
+  console.warn("Could not restore uploaded files:", error);
+}
+
+function openCloudUploadModal() {
   openModal(`
-
     <div class="mc">
+      <h3>CLOUDINARY FILE UPLOAD</h3>
 
-      <h3>
-        CLOUD UPLOAD
-      </h3>
-
-      <p>
-        Cloud upload endpoint will
-        be connected to Amazon S3.
-        No files are uploaded at this stage.
+      <p class="note">
+        Upload a mission image or PDF report to cloud storage.
       </p>
 
-    </div>
+      <form id="cloud-upload-form" style="margin-top:18px">
+        <label for="cloud-file-name"
+          style="display:block;margin-bottom:7px">
+          File title
+        </label>
 
+        <input
+          id="cloud-file-name"
+          type="text"
+          maxlength="100"
+          placeholder="e.g. Chandrayaan-3 Mission Report"
+          style="width:100%;padding:12px;border-radius:10px;margin-bottom:14px"
+          required
+        >
+
+        <label for="cloud-file-input"
+          style="display:block;margin-bottom:7px">
+          Choose an image or PDF
+        </label>
+
+        <input
+          id="cloud-file-input"
+          type="file"
+          accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+          style="display:block;width:100%;margin-bottom:14px"
+          required
+        >
+
+        <p class="note" style="font-size:12px">
+          JPG, PNG or PDF only. Maximum 10 MB.
+        </p>
+
+        <button
+          id="cloud-upload-submit"
+          class="btn pri"
+          type="submit">
+          UPLOAD TO CLOUD
+        </button>
+      </form>
+
+      <p
+        id="cloud-upload-status"
+        class="note"
+        role="status"
+        aria-live="polite"
+        style="margin-top:12px">
+      </p>
+    </div>
   `);
 
-};
+  const form = $("#cloud-upload-form");
+  const fileInput = $("#cloud-file-input");
+  const titleInput = $("#cloud-file-name");
+  const submitButton = $("#cloud-upload-submit");
+  const status = $("#cloud-upload-status");
 
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const file = fileInput.files?.[0];
+
+    if (!file) {
+      status.textContent = "Please choose a file.";
+      return;
+    }
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "application/pdf"
+    ];
+
+    const allowedExtensions = /\.(jpe?g|png|pdf)$/i;
+
+    if (
+      !allowedTypes.includes(file.type) &&
+      !allowedExtensions.test(file.name)
+    ) {
+      status.textContent =
+        "Unsupported file. Choose a JPG, PNG or PDF.";
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      status.textContent =
+        "File exceeds 10 MB. Please choose a smaller file.";
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", "space-mission-hub");
+
+    submitButton.disabled = true;
+    submitButton.textContent = "UPLOADING...";
+    status.textContent = "Uploading to Cloudinary...";
+
+    try {
+      const response = await fetch(CLOUDINARY_UPLOAD_URL, {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result?.error?.message || "Cloudinary upload failed."
+        );
+      }
+
+      if (!result.secure_url) {
+        throw new Error("Cloudinary did not return a file URL.");
+      }
+
+      const format = (
+        result.format ||
+        file.name.split(".").pop()
+      ).toLowerCase();
+
+      const isPdf = format === "pdf";
+
+      const uploadedFile = {
+        icon: isPdf ? "📄" : "🛰️",
+        name:
+          titleInput.value.trim() ||
+          result.original_filename ||
+          file.name,
+        type: isPdf ? "REPORT" : "IMAGE",
+        url: result.secure_url,
+        cloudinaryPublicId: result.public_id,
+        uploadedAt: new Date().toISOString()
+      };
+
+      // Add the uploaded file to the Data Vault.
+      files.unshift(uploadedFile);
+
+      // Save file metadata in this browser.
+      // The actual file is stored by Cloudinary.
+      try {
+        const cloudFiles = files.filter(
+          item => item.cloudinaryPublicId
+        );
+
+        localStorage.setItem(
+          CLOUD_FILES_STORAGE_KEY,
+          JSON.stringify(cloudFiles)
+        );
+      } catch (storageError) {
+        console.warn(
+          "File uploaded, but browser metadata could not be saved:",
+          storageError
+        );
+      }
+
+      renderFiles();
+      closeModal();
+
+      toast("File uploaded to Cloudinary successfully.");
+
+    } catch (error) {
+      console.error("Cloudinary upload error:", error);
+
+      status.textContent =
+        "Upload failed: " + error.message +
+        " Check your cloud name, preset settings and connection.";
+
+      submitButton.disabled = false;
+      submitButton.textContent = "TRY UPLOAD AGAIN";
+    }
+  });
+}
+
+$("#add").onclick = openCloudUploadModal;
 
 renderFiles();
+
 
 
 // ==========================================
