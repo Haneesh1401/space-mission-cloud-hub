@@ -1126,9 +1126,9 @@ $("#files").addEventListener(
 // ==========================================
 
 
- // ==========================================
- // CLOUDINARY UPLOAD
- // ==========================================
+// ==========================================
+// CLOUDINARY UPLOAD
+// ==========================================
 
 const CLOUDINARY_CLOUD_NAME = "aj8wzkmt";
 const CLOUDINARY_UPLOAD_PRESET = "space_mission_upload";
@@ -1169,8 +1169,10 @@ function openCloudUploadModal() {
       </p>
 
       <form id="cloud-upload-form" style="margin-top:18px">
-        <label for="cloud-file-name"
-          style="display:block;margin-bottom:7px">
+        <label
+          for="cloud-file-name"
+          style="display:block;margin-bottom:7px"
+        >
           File title
         </label>
 
@@ -1183,8 +1185,10 @@ function openCloudUploadModal() {
           required
         >
 
-        <label for="cloud-file-input"
-          style="display:block;margin-bottom:7px">
+        <label
+          for="cloud-file-input"
+          style="display:block;margin-bottom:7px"
+        >
           Choose an image or PDF
         </label>
 
@@ -1203,7 +1207,8 @@ function openCloudUploadModal() {
         <button
           id="cloud-upload-submit"
           class="btn pri"
-          type="submit">
+          type="submit"
+        >
           UPLOAD TO CLOUD
         </button>
       </form>
@@ -1213,8 +1218,8 @@ function openCloudUploadModal() {
         class="note"
         role="status"
         aria-live="polite"
-        style="margin-top:12px">
-      </p>
+        style="margin-top:12px"
+      ></p>
     </div>
   `);
 
@@ -1282,7 +1287,9 @@ function openCloudUploadModal() {
       }
 
       if (!result.secure_url) {
-        throw new Error("Cloudinary did not return a file URL.");
+        throw new Error(
+          "Cloudinary did not return a file URL."
+        );
       }
 
       const format = (
@@ -1308,7 +1315,7 @@ function openCloudUploadModal() {
       files.unshift(uploadedFile);
 
       // Save file metadata in this browser.
-      // The actual file is stored by Cloudinary.
+      // The actual file is stored in Cloudinary.
       try {
         const cloudFiles = files.filter(
           item => item.cloudinaryPublicId
@@ -1334,7 +1341,8 @@ function openCloudUploadModal() {
       console.error("Cloudinary upload error:", error);
 
       status.textContent =
-        "Upload failed: " + error.message +
+        "Upload failed: " +
+        error.message +
         " Check your cloud name, preset settings and connection.";
 
       submitButton.disabled = false;
@@ -1343,10 +1351,11 @@ function openCloudUploadModal() {
   });
 }
 
+// Connect the existing Add button to Cloudinary upload.
 $("#add").onclick = openCloudUploadModal;
 
+// Refresh the Data Vault.
 renderFiles();
-
 
 
 // ==========================================
