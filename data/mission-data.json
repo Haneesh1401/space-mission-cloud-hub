@@ -1,0 +1,98 @@
+{
+  "project": "Space Mission Cloud Hub",
+  "description": "Cloud-hosted metadata for selected space missions",
+  "missions": [
+    {
+      "id": "CM3",
+      "name": "Chandrayaan-3",
+      "agency": "ISRO",
+      "country": "India",
+      "target": "Moon",
+      "launch_date": "2023-07-14",
+      "mission_type": "Lunar Exploration",
+      "status": "Mission Completed",
+      "lander": "Vikram",
+      "rover": "Pragyan",
+      "launch_vehicle": "LVM3-M4",
+      "key_objectives": [
+        "Demonstrate safe and soft landing",
+        "Demonstrate rover mobility",
+        "Conduct in-situ scientific experiments"
+      ],
+      "data_types": [
+        "Lunar surface data",
+        "Seismic data",
+        "Thermal data",
+        "Plasma measurements",
+        "Elemental composition data"
+      ],
+      "official_source": "ISRO"
+    },
+    {
+      "id": "MOM",
+      "name": "Mars Orbiter Mission",
+      "agency": "ISRO",
+      "country": "India",
+      "target": "Mars",
+      "launch_date": "2013-11-05",
+      "mission_type": "Mars Exploration",
+      "status": "Mission Completed",
+      "launch_vehicle": "PSLV-C25",
+      "key_objectives": [
+        "Study the Martian surface",
+        "Study the Martian atmosphere",
+        "Demonstrate interplanetary mission capability"
+      ],
+      "data_types": [
+        "Mars imagery",
+        "Atmospheric observations",
+        "Scientific measurements"
+      ],
+      "official_source": "ISRO"
+    },
+    {
+      "id": "JWST",
+      "name": "James Webb Space Telescope",
+      "agency": "NASA",
+      "country": "United States",
+      "target": "Deep Space",
+      "launch_date": "2021-12-25",
+      "mission_type": "Space Telescope",
+      "status": "Operational",
+      "key_objectives": [
+        "Observe the early universe",
+        "Study galaxy formation",
+        "Study star and planet formation",
+        "Investigate exoplanet atmospheres"
+      ],
+      "data_types": [
+        "Infrared images",
+        "Spectroscopic data",
+        "Astronomical observations"
+      ],
+      "official_source": "NASA"
+    },
+    {
+      "id": "MARS2020",
+      "name": "Mars Perseverance Rover",
+      "agency": "NASA",
+      "country": "United States",
+      "target": "Mars",
+      "launch_date": "2020-07-30",
+      "mission_type": "Mars Exploration",
+      "status": "Operational",
+      "key_objectives": [
+        "Search for signs of ancient microbial life",
+        "Study Martian geology",
+        "Collect and cache rock samples"
+      ],
+      "data_types": [
+        "Mars surface images",
+        "Rock and soil measurements",
+        "Environmental data",
+        "Navigation data"
+      ],
+      "official_source": "NASA"
+    }
+  ]
+}
